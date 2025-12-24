@@ -1,0 +1,53 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [12,13,14,15],
+      "original": "python -m venv venv\nvenv\\Scripts\\activate",
+      "updated": "python -m venv .venv\n.venv\\Scripts\\Activate.ps1 (PowerShell)\n.venv\\Scripts\\activate (cmd)\nsource .venv/bin/activate (macOS / Linux)",
+      "fix_explanation": "Standardize on a local `.venv` directory (conventional for modern Python projects) and provide cross-platform activation commands so contributors use the same env path."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [24,25,29,30,31,32,33],
+      "original": "copy .env.example .env\n\nEdit .env and set the following values:\nAPP_ENV=dev\nPORT=8000\nDEBUG=true",
+      "updated": "Use the existing `settings.yaml` (service port) and set environment variable `APP_MODE=production`. Example: PowerShell: `$env:APP_MODE = \"production\"`; macOS/Linux: `export APP_MODE=production`",
+      "fix_explanation": "The project does not use `.env` or the APP_ENV/PORT/DEBUG variables; it reads `settings.yaml` for port and requires `APP_MODE` as an environment variable. Updated docs to avoid confusion and set correct variable/value."
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [36,37,38],
+      "original": "python main.py",
+      "updated": "python app.py",
+      "fix_explanation": "The actual application entrypoint is `app.py` (not `main.py`). The README now uses the correct command and shows expected output."
+    },
+    {
+      "id": 4,
+      "file": "README.md",
+      "line_numbers": [41,42],
+      "original": "http://localhost:8000",
+      "updated": "This is not a persistent HTTP server; the app prints the configured port (9123) from `settings.yaml` and exits. Use tests to verify behavior or run `python app.py` to see startup output.",
+      "fix_explanation": "The README incorrectly instructed to browse to localhost:8000; the project is a startup script that prints its port (9123). Replaced the instruction with testing and verification guidance."
+    },
+    {
+      "id": 5,
+      "file": "README.md",
+      "line_numbers": [17,18,19,20,21],
+      "original": "pip install -r requirements.txt",
+      "updated": "pip install -r requirements.txt\n# Also install test runner for running tests: `pip install pytest`",
+      "fix_explanation": "Tests require pytest as the runner; it is recommended to install `pytest` in the environment or run the provided `auto_test.py` which will invoke pytest from the `.venv` environment."
+    },
+    {
+      "id": 6,
+      "file": "auto_test.py",
+      "line_numbers": [1,2,3],
+      "original": "test_proc = subprocess.run([str(venv_py), \"-m\", \"pytest\", \"tests\", \"-q\"], capture_output=True, text=True, env=env)",
+      "updated": "# Auto-detect and run all files in tests/ since filenames do not use pytest discovery patterns\ntest_files = [str(p) for p in (ROOT / \"tests\").glob(\"*.py\")]
+if test_files:\n    test_proc = subprocess.run([str(venv_py), \"-m\", \"pytest\", \"-q\"] + test_files, capture_output=True, text=True, env=env)",
+      "fix_explanation": "Pytest's default discovery only picks up files named `test_*.py` / `*_test.py`. This repo's test files use `case_*.py`, so `auto_test.py` was updated to pass explicit file paths to pytest so tests are executed in CI runs."
+    }
+  ]
+}
