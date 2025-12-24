@@ -1,0 +1,52 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [12,13,14,15],
+      "original": "python -m venv venv\nvenv\\Scripts\\activate",
+      "updated": "python -m venv .venv  (then activate .venv\\Scripts\\Activate.ps1 or source .venv/bin/activate)",
+      "fix_explanation": "The project and automation use a project-local '.venv' directory. Standardized activation commands and cross-platform instructions were added so CI and contributors use the same environment path."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [19,20,21],
+      "original": "pip install -r requirements.txt",
+      "updated": "python -m pip install -r requirements.txt\npython -m pip install pytest",
+      "fix_explanation": "Tests require 'pytest' but the original README did not instruct installing test deps. The README now shows installing runtime + test dependencies." 
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [23,24,25,26,27,28,29,30,31,32,33],
+      "original": "copy .env.example .env\n\nEdit .env and set the following values:\nAPP_ENV=dev\nPORT=8000\nDEBUG=true",
+      "updated": "No .env.example is used. Set environment variable APP_MODE=production; the port comes from settings.yaml (default 9123).",
+      "fix_explanation": "Code requires 'APP_MODE' (with value 'production') and reads the port from 'settings.yaml'. The original env variable names and values were incorrect." 
+    },
+    {
+      "id": 4,
+      "file": "README.md",
+      "line_numbers": [35,36,37,38,39,40,41,42,43],
+      "original": "python main.py\n\nOpen your browser and visit:\nhttp://localhost:8000",
+      "updated": "python app.py\n\nExpected output: 'Service started successfully' and 'Port: 9123' (service validates and exits).",
+      "fix_explanation": "The repository's entrypoint is 'app.py' (not 'main.py') and the default port is 9123. The service in this kata performs startup validation (it is not an HTTP server)."
+    },
+    {
+      "id": 5,
+      "file": "README.md",
+      "line_numbers": [44],
+      "original": "If the page loads successfully, the service has started correctly.",
+      "updated": "Added instructions for the provided 'auto_test.py' runner, logs location ('logs/test_run.log'), and CI troubleshooting notes.",
+      "fix_explanation": "Added explicit guidance to run the test runner and where to find CI/test logs so contributors and CI pipelines can reproduce results." 
+    },
+    {
+      "id": 6,
+      "file": "README.md",
+      "line_numbers": [35,36,37,38,39,40,41,42,43],
+      "original": "python -m pytest tests -q",
+      "updated": "Clarified pytest discovery: either run 'pytest tests/case_*.py' or use the provided 'auto_test.py' runner (recommended).",
+      "fix_explanation": "Pytest's default discovery pattern does not match this repository's test filenames (case_*.py). The README now documents the discovery mismatch and points users to the included test runner to ensure reproducible CI runs."
+    }
+  ]
+}
