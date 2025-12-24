@@ -10,8 +10,8 @@
 ### 1. Create virtual environment
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+python -m venv venv
+venv\Scripts\activate
 ```
 
 ### 2. Install dependencies
@@ -21,19 +21,24 @@ pip install -r requirements.txt
 ```
 
 ### 3. Configure environment variables
+```
+copy .env.example .env
+```
 
-Set the APP_MODE environment variable to 'production':
-
-```bash
-set APP_MODE=production
+Edit .env and set the following values:
+```
+APP_ENV=dev
+PORT=8000
+DEBUG=true
 ```
 
 ### 4. Run the application
-
 ```
-python app.py
+python main.py
 ```
 
 ### 5. Verify the service
+Open your browser and visit:
+http://localhost:8000
 
-The application will print confirmation messages indicating successful startup and the configured port (9123).
+If the page loads successfully, the service has started correctly.
