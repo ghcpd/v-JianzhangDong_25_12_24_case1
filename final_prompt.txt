@@ -1,4 +1,4 @@
-User: You are responsible for reviewing outdated documents.
+You are responsible for reviewing outdated documents.
 The project's README.md does not match the actual state of the project, and the README.md document needs to be updated.
 
 Complete the following tasks:
