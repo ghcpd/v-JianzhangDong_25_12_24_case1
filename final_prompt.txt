@@ -1,58 +1,43 @@
-You are given a Python project on Windows at:
-v-JianzhangDong_25_12_24_case1
+You are responsible for reviewing outdated documents.
+The project's README.md does not match the actual state of the project, and the README.md document needs to be updated.
 
-Goal: make the repository deployable and automatable without modifying existing source files (except README.md). Create any new files required and verify the project runs and tests pass.
+Complete the following tasks:
+1. Create a backup of the original README.md named README_backup.md before making any modifications.
 
-### Required tasks
-1. Create a backup of the original README.md as README_backup.md.
-2. Update README.md so instructions exactly match how the project actually runs (entrypoint, config, port, venv, test commands, environment variables). Only edit README.md — do not modify other existing files.
-3. Ensure a clean virtual environment under .venv:
-   - If .venv exists, delete it and recreate from scratch.
-   - Install dependencies from requirements.txt (and `pytest`).
-   - Add/update .gitignore to exclude .venv, logs, and cache files.
-4. Add auto_test.py that:
-   - Starts the application (use the same command a user would run).
-   - Runs every test file in the tests folder using the Python interpreter from .venv.
-   - Writes test output to test_run.log (create logs if missing).
-5. Produce report.json documenting README fixes using this schema:
-   {
-     "problems": [
-       {
-         "id": <integer>,
-         "file": "README.md",
-         "line_numbers": [<ints>],
-         "original": "<string>",
-         "updated": "<string>",
-         "fix_explanation": "<string>"
-       },
-       ...
-     ]
-   }
+2. Understand the entire project's execution logic and update README.md so that users can successfully deploy the project based on the instructions in the README.md.
+   Only the README.md file may be modified; no other files may be changed.
 
-### Constraints & rules
-- Do not change any existing source/test/config files other than README.md.
-- You may add new files (.gitignore, auto_test.py, report.json, etc.).
-- Work on Windows-compatible commands and paths.
-- Recreate .venv — do not reuse an existing virtual environment.
-- Tests must be executed with the .venv Python interpreter.
+3. Based on the modified requirements.txt create a clean virtual environment under .venv/. Ensure that:
+ - Do not reuse any existing environment. 
+ - If .venv/ already exists, delete and recreate it.
+ - Install all dependencies into .venv/.
+ - Generate or update .gitignore so that .venv/ will not be uploaded to Git.
 
-### Verification / acceptance criteria
-- README_backup.md exists and preserves the original content.
-- README.md accurately documents:
-  - Correct entrypoint (e.g., `python app.py`)
-  - How to set required env vars/config (settings.yaml), port, and expected output
-  - venv creation & activation (`python -m venv .venv`, activation instructions for Windows)
-  - How to run auto_test.py to run tests
-- .venv created and dependencies installed.
-- .gitignore contains .venv and logs.
-- auto_test.py starts the app, runs all tests in tests using .venv, writes test_run.log.
-- report.json contains detailed README fixes per the schema.
-- Running `python auto_test.py` (using .venv interpreter) succeeds and test results are written to test_run.log.
+4. Generate an auto_test.py file that meets the following requirements:
+   - Start the project.
+   - Use the environment created under the .venv/ directory to execute all test scripts inside the tests/ folder.
+   - Write all test results to logs/test_run.log (create the logs/ directory if it doesn't exist).
 
-### Commands the agent should run (Windows)
-- python -m venv .venv
-- Activate.ps1  (or activate for cmd)
-- pip.exe install -r requirements.txt pytest
-- python auto_test.py
+5. You must generate a report.json file documenting all CI/CD fixes.
+The report should follow the structure below:
+{
+  "problems": [
+    {
+      "id": <integer>,
+      "file": "README.md",
+      "line_numbers": [<list of integers>],
+      "original": "<string>",
+      "updated": "<string>",
+      "fix_explanation": "<string>"
+    },
+    {
+      "id": <integer>,
+      "file": "README.md",
+      "line_numbers": [<list of integers>],
+      "original": "<string>",
+      "updated": "<string>",
+      "fix_explanation": "<string>"
+    }
 
-> Note: Fail the task if tests do not run or .venv was reused.
+  ]
+}
