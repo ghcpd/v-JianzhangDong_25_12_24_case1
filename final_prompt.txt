@@ -1,101 +1,43 @@
-You are an automated maintainer. Fix the repository's documentation, provide a reliable local test-runner, ensure reproducible environment setup, and produce a CI report. Follow these strict rules and deliverables.
+You are responsible for reviewing outdated documents.
+The project's README.md does not match the actual state of the project, and the README.md document needs to be updated.
 
-Constraints
-- You MAY edit **only** `README.md`. You MAY add new files. You MUST NOT modify any other existing files (source or tests).
-- Create new files as needed (examples below).
-- Work must succeed on Windows PowerShell and also include equivalent macOS/Linux commands.
-- Never reuse an existing virtual environment; always delete and recreate `.venv/` if present.
+Complete the following tasks:
+1. Create a backup of the original README.md named README_backup.md before making any modifications.
 
-Primary tasks (in order)
-1. Backup
-   - Create `README_backup.md` containing the original `README.md` content.
+2. Understand the entire project's execution logic and update README.md so that users can successfully deploy the project based on the instructions in the README.md.
+   Only the README.md file may be modified; no other files may be changed.
 
-2. README.md
-   - Update `README.md` so a new contributor can reproduce the project from scratch.
-   - Must include: exact env creation & activation commands (Windows + macOS/Linux), dependency install, how to run the app, required environment variables, port default, how to run tests (explain pytest discovery quirks), and the recommended test-runner command.
-   - Make the README minimal, accurate, and copy-paste runnable.
+3. Based on the modified requirements.txt create a clean virtual environment under .venv/. Ensure that:
+ - Do not reuse any existing environment. 
+ - If .venv/ already exists, delete and recreate it.
+ - Install all dependencies into .venv/.
+ - Generate or update .gitignore so that .venv/ will not be uploaded to Git.
 
-3. Environment & .gitignore
-   - Create a fresh `.venv/` at project root (delete first if exists).
-   - Install dependencies from `requirements.txt` and also install `pytest`.
-   - Create or update `.gitignore` to exclude `.venv/`, `logs/`, `__pycache__/`, `*.pyc`, and other runtime artifacts.
+4. Generate an auto_test.py file that meets the following requirements:
+   - Start the project.
+   - Use the environment created under the .venv/ directory to execute all test scripts inside the tests/ folder.
+   - Write all test results to logs/test_run.log (create the logs/ directory if it doesn't exist).
 
-4. Test runner
-   - Add `auto_test.py` that:
-     - Uses the project-local `.venv` Python executable.
-     - Sets required env vars (example: `APP_MODE=production`) before running the app/tests.
-     - Starts the application (if required by tests) and runs *all* tests under `tests/`.
-     - Writes full test output to `logs/test_run.log` (create `logs/` if missing).
-     - Exits with pytest's exit code.
+5. You must generate a report.json file documenting all CI/CD fixes.
+The report should follow the structure below:
+{
+  "problems": [
+    {
+      "id": <integer>,
+      "file": "README.md",
+      "line_numbers": [<list of integers>],
+      "original": "<string>",
+      "updated": "<string>",
+      "fix_explanation": "<string>"
+    },
+    {
+      "id": <integer>,
+      "file": "README.md",
+      "line_numbers": [<list of integers>],
+      "original": "<string>",
+      "updated": "<string>",
+      "fix_explanation": "<string>"
+    }
 
-5. Verification & reproducibility
-   - Run the recreated `.venv` and execute `auto_test.py` to verify tests run.
-   - Provide both Windows PowerShell and Unix commands to reproduce locally.
-
-6. CI report
-   - Create `report.json` summarizing all CI/docs fixes. Follow this schema exactly:
-     {
-       "problems": [
-         {
-           "id": <int>,
-           "file": "README.md",
-           "line_numbers": [<ints>],
-           "original": "<string>",
-           "updated": "<string>",
-           "fix_explanation": "<string>"
-         },
-         ...
-       ]
-     }
-   - Each README change must be an entry with original text, updated text, and affected line numbers.
-
-Acceptance criteria (must pass)
-- `README_backup.md` exists and equals the original README contents.
-- `README.md` contains working, platform-aware instructions to:
-  - create & activate `.venv/`
-  - install dependencies
-  - run the app (`python app.py`)
-  - run tests (recommended: `auto_test.py` and an explicit `pytest` pattern)
-  - required env var(s) (e.g., `APP_MODE=production`) and default port (9123) — include exact example commands.
-- `.gitignore` includes `.venv/` and `logs/`.
-- `.venv/` is created from scratch and contains installed deps.
-- `auto_test.py` exists, uses `.venv`'s python, writes `logs/test_run.log`, and exits with pytest exit code.
-- `report.json` exists and documents every change to `README.md`.
-- All tests in `tests/` run successfully with exit code 0 when using `.venv` and `auto_test.py`.
-- No existing source/test files were modified.
-
-Verification commands (examples to run in project root)
-- Windows (PowerShell):
-  - Remove/create venv + install: 
-    if (Test-Path .venv) { Remove-Item -Recurse -Force .venv }
-    python -m venv .venv
-    .\.venv\Scripts\Activate.ps1
-    python -m pip install --upgrade pip
-    python -m pip install -r requirements.txt
-    python -m pip install pytest
-  - Run test runner:
-    .\.venv\Scripts\python auto_test.py
-- macOS/Linux:
-  - python3 -m venv .venv
-  - source .venv/bin/activate
-  - python -m pip install -r requirements.txt pytest
-  - .venv/bin/python auto_test.py
-
-Deliverables (files to add/update)
-- Updated: `README.md` (only file modified in-place)
-- Added: `README_backup.md`, `.gitignore`, `auto_test.py`, `report.json`, `logs/test_run.log` (generated)
-- A freshly created `.venv/` containing installed dependencies
-
-Reporting & output
-- Return a short summary that includes:
-  - Commands you ran to verify (copy-pasteable)
-  - `auto_test.py` exit code and path to `logs/test_run.log`
-  - A short JSON `report.json` (must be present in repo)
-- If any acceptance criterion cannot be met, explain exactly why and list remaining manual steps.
-
-Extra constraints
-- Do not rename or delete existing tests.
-- Do not change test logic or source code.
-- Keep README edits factual and minimal — include exact commands and the reason for each change in `report.json`.
-
-Success = all acceptance criteria satisfied and `auto_test.py` exits 0.
+  ]
+}
