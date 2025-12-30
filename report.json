@@ -1,0 +1,28 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [1, 2],
+      "original": "## Requirements\n\n- Python 3.10+\n- pip",
+      "updated": "# Project Documentation\n\n## Requirements\n\n- Python 3.10 or higher\n- pip (Python package installer)",
+      "fix_explanation": "Added project title and improved requirement clarity. Changed '3.10+' to '3.10 or higher' for better readability and added description for pip."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [3, 20],
+      "original": "---\n\n## Quick Start\n\n### 1. Create virtual environment\n\n```bash\npython -m venv venv\nvenv\\Scripts\\activate\n```\n\n### 2. Install dependencies\n\n```\npip install -r requirements.txt\n```\n\n### 3. Configure environment variables\n```\ncopy .env.example .env\n```\n\nEdit .env and set the following values:\n```\nAPP_ENV=dev\nPORT=8000\nDEBUG=true\n```",
+      "updated": "---\n\n## Project Structure\n\n- `app.py` - Main application entry point\n- `config.py` - Configuration loader (reads from settings.yaml and environment variables)\n- `settings.yaml` - Service configuration with port settings\n- `requirements.txt` - Python dependencies\n- `tests/` - Test suite containing test cases\n  - `case_1.py` - Test that app starts successfully\n  - `case_2.py` - Test that output contains port information\n  - `case_3.py` - Test that correct port (9123) is displayed\n\n## Quick Start Guide\n\n### 1. Create and activate virtual environment\n\n```bash\npython -m venv .venv\n.venv\\Scripts\\activate\n```\n\nOn Linux/Mac:\n```bash\npython -m venv .venv\nsource .venv/bin/activate\n```\n\n### 2. Install dependencies\n\n```bash\npip install -r requirements.txt\n```\n\n### 3. Configure environment variables\n\nSet the APP_MODE environment variable before running the application:\n\n**Windows (Command Prompt):**\n```bash\nset APP_MODE=production\n```\n\n**Windows (PowerShell):**\n```powershell\n$env:APP_MODE=\"production\"\n```\n\n**Linux/Mac:**\n```bash\nexport APP_MODE=production\n```",
+      "fix_explanation": "Completely rewrote the Quick Start section based on actual project implementation. Fixed multiple critical issues: (1) Changed virtual environment name from 'venv' to '.venv' (matching project structure), (2) Removed non-existent .env.example dependency, (3) Changed APP_ENV to APP_MODE (actual environment variable), (4) Removed PORT and DEBUG settings (not used in app), (5) Added multi-platform instructions for activating venv and setting environment variables, (6) Added Project Structure section for better documentation."
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [21, 30],
+      "original": "### 4. Run the application\n```\npython main.py\n```\n\n### 5. Verify the service\nOpen your browser and visit:\nhttp://localhost:8000\n\nIf the page loads successfully, the service has started correctly.",
+      "updated": "### 4. Run the application\n\n```bash\npython app.py\n```\n\nThe application will output:\n```\nService started successfully\nPort: 9123\n```\n\n### 5. Run tests\n\nExecute all test cases to verify the application:\n\n```bash\npython auto_test.py\n```\n\nTest results will be written to `logs/test_run.log`.\n\n## Configuration\n\n### Environment Variables\n\n- `APP_MODE` - Application mode (must be set to 'production')\n\n### Service Configuration (settings.yaml)\n\nThe service port can be configured in `settings.yaml`:\n```yaml\nservice:\n  port: 9123\n```\n\n## Dependencies\n\n- `pyyaml>=6.0.2` - YAML parser for reading configuration files\n\n## Testing\n\nThe project includes automated tests in the `tests/` directory. Run all tests using:\n\n```bash\npython auto_test.py\n```\n\nTest results and detailed logs are saved to `logs/test_run.log`.",
+      "fix_explanation": "Fixed critical errors in application execution and verification: (1) Changed 'main.py' to 'app.py' (correct entry point), (2) Removed incorrect web browser verification (app is not a web service), (3) Added correct console output format, (4) Added actual port number (9123) from settings.yaml, (5) Added comprehensive testing instructions using auto_test.py, (6) Documented environment variables and configuration options, (7) Listed actual dependencies (pyyaml), (8) Added detailed testing section with logging information."
+    }
+  ]
+}
