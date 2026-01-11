@@ -1,0 +1,36 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [10, 11],
+      "original": "python -m venv venv\nvenv\\Scripts\\activate",
+      "updated": "python -m venv .venv\n.venv\\Scripts\\activate",
+      "fix_explanation": "Updated virtual environment directory from 'venv' to '.venv' to match project conventions."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [16, 22],
+      "original": "copy .env.example .env\n\nEdit .env and set the following values:\n```\nAPP_ENV=dev\nPORT=8000\nDEBUG=true\n```",
+      "updated": "Set the APP_MODE environment variable to 'production':\n\n```bash\nset APP_MODE=production\n```",
+      "fix_explanation": "Replaced outdated .env configuration with correct APP_MODE environment variable setting required by the application."
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [24],
+      "original": "python main.py",
+      "updated": "python app.py",
+      "fix_explanation": "Corrected the main application file name from 'main.py' to 'app.py' as per the actual project structure."
+    },
+    {
+      "id": 4,
+      "file": "README.md",
+      "line_numbers": [26, 28],
+      "original": "Open your browser and visit:\nhttp://localhost:8000\n\nIf the page loads successfully, the service has started correctly.",
+      "updated": "The application will print confirmation messages indicating successful startup and the configured port (9123).",
+      "fix_explanation": "Updated verification instructions to reflect that the application prints messages rather than starting a web server, and corrected the port number to 9123 as configured in settings.yaml."
+    }
+  ]
+}

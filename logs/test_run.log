@@ -1,0 +1,3 @@
+PASS: case_1.test_app_starts
+PASS: case_2.test_output_contains_port
+PASS: case_3.test_correct_port
